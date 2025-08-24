@@ -1,0 +1,85 @@
+package com.quizapp.ui;
+
+import com.quizapp.util.InputUtil;
+import com.quizapp.service.QuizService;
+import com.quizapp.service.ScoreService;
+import com.quizapp.service.UserService;
+
+public class UserDashboard {
+
+    private final UserService userService = new UserService();
+    private final QuizService quizService = new QuizService();
+    private final ScoreService scoreService = new ScoreService();
+
+    public void userChoice() {
+
+        System.out.println();
+        System.out.println("1. Existing user");
+        System.out.println("2. New user");
+        System.out.println("3. Back to Main Menu");
+        int choice = InputUtil.getInt(1, 3);
+
+        try {
+            switch (choice) {
+                case 1:
+                    String userName = userService.userValidation();
+                    if(!userName.isEmpty())
+                        userMenu(userName);
+                    break;
+                case 2:
+                    String newUser = userService.createNewUser();
+                    userMenu(newUser);
+                    break;
+                case 3:
+                    System.out.println("Returning to Main Menu...");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void userMenu(String userName) {
+        boolean loggedIn = true;
+
+        while (loggedIn) {
+            showMenu();
+
+            try {
+                int choice = InputUtil.getInt(1, 5);
+
+                switch (choice) {
+                    case 1:
+                        quizService.startQuiz(userName);
+                        break;
+                    case 2:
+                        scoreService.viewScoreByName(userName);
+                        break;
+                    case 3:
+                        scoreService.viewTopScores();
+                        break;
+                    case 4:
+                        userName = userService.profileUpdate(userName);
+                        break;
+                    case 5:
+                        System.out.println("Logging out...");
+                        loggedIn = false;
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void showMenu() {
+        System.out.println();
+        System.out.println("==============================");
+        System.out.println("        User Dashboard");
+        System.out.println("==============================");
+        System.out.println("1. Start Quiz");
+        System.out.println("2. My Scores");
+        System.out.println("3. Top Scores");
+        System.out.println("4. Change UserName or Password");
+        System.out.println("5. Logout");
+    }
+
+}
