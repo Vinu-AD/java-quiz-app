@@ -1,7 +1,6 @@
 package com.quizapp.ui;
 
 import com.quizapp.service.QuizService;
-import com.quizapp.util.FileUtil;
 import com.quizapp.util.InputUtil;
 import com.quizapp.service.QuestionService;
 import com.quizapp.service.ScoreService;
@@ -16,7 +15,7 @@ public class AdminDashboard {
 
     public void adminValidation() {
         while (true) {
-            System.out.print("Enter admin password (or 'EXIT'): ");
+            System.out.print("Enter admin password (or 'Exit'): ");
             String password = InputUtil.getString();
 
             if(password.equalsIgnoreCase("exit")) return;
@@ -43,7 +42,7 @@ public class AdminDashboard {
 
                     switch (choice) {
                         case 1:
-                            createNewQuizFile(); // create new quiz file
+                            questionService.createNewQuizFile(); // create new quiz file
                             break;
                         case 2:
                             questionService.alterQuestions(); // Alter existing question, options and answer
@@ -80,26 +79,4 @@ public class AdminDashboard {
         System.out.println("6. Logout");
     }
 
-    private void createNewQuizFile() {
-        while (true) {
-            System.out.print("Enter the new quiz name: ");
-            String fileName = InputUtil.getString();
-
-            if(fileName.equalsIgnoreCase("exit"))
-                return;
-
-            boolean isFileCreated = FileUtil.createQuizFile(fileName);
-
-            if (isFileCreated) {
-                // add some questions in the same file
-                questionService.addQuestions(fileName);
-                System.out.println("New quiz file created successfully.");
-                break;
-            }
-            else {
-                System.out.println("File already exists.");
-                System.out.println("Try another name or type 'exit' to cancel");
-            }
-        }
-    }
 }

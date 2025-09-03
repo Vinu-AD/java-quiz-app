@@ -14,8 +14,8 @@ public class UserDashboard {
     public void userChoice() {
 
         System.out.println();
-        System.out.println("1. Existing user");
-        System.out.println("2. New user");
+        System.out.println("1. Login");
+        System.out.println("2. Create New Account");
         System.out.println("3. Back to Main Menu");
         int choice = InputUtil.getInt(1, 3);
 

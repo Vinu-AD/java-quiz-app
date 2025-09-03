@@ -11,25 +11,23 @@ import java.util.LinkedHashMap;
 public class QuizService {
 
     public void startQuiz(String userName) {
-        while (true) {
-            System.out.println();
-            System.out.println("Choose your choice");
-            System.out.println("1. Timed Quiz");
-            System.out.println("2. Self-Paced Quiz");
-            System.out.println("0. <<< Back to Main Menu");
+        System.out.println();
+        System.out.println("Choose your choice");
+        System.out.println("1. Timed Quiz");
+        System.out.println("2. Self-Paced Quiz");
+        System.out.println("0. <<< Back to Main Menu");
 
-            int choice = InputUtil.getInt(0, 2);
+        int choice = InputUtil.getInt(0, 2);
 
-            switch (choice) {
-                case 0:
-                    return;
-                case 1:
-                    timedQuiz(userName);
-                    break;
-                case 2:
-                    selfPacedQuiz(userName);
-                    break;
-            }
+        switch (choice) {
+            case 0:
+                return;
+            case 1:
+                timedQuiz(userName);
+                break;
+            case 2:
+                selfPacedQuiz(userName);
+                break;
         }
     }
 
@@ -111,6 +109,9 @@ public class QuizService {
                     System.out.println("You selected \"CORRECT\" answer ("+ question.getAnswer() +")");
                 else
                     System.out.println("You selected \"WRONG\" answer ("+ selectedOption +")");
+
+                System.out.println("Press 'Enter Key' to continue");
+                InputUtil.getEnter();
             }
             else if (choice == 3) break;
         }

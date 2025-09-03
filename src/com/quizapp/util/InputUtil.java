@@ -81,4 +81,15 @@ public class InputUtil {
         int choice = getInt(1, 2);
         return choice == 1;
     }
+
+    public static void getEnter() {
+        while (true) {
+            String input = scan.nextLine();
+
+            if (input.isEmpty())
+                return;
+            else
+                System.out.println("Press 'Enter key' to continue");
+        }
+    }
 }

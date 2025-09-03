@@ -15,7 +15,4 @@ public class App {
 
 
 
-// back menu
 
-// Timed Quiz
-// Self-Paced Quiz

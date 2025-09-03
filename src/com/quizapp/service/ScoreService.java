@@ -12,6 +12,17 @@ import java.util.NoSuchElementException;
 
 public class ScoreService {
 
+    private void scoreMenu() {
+        System.out.println();
+        System.out.println("Choose your choice");
+        System.out.println("1. View Score by Name");
+        System.out.println("2. View Score by Quiz Topic");
+        System.out.println("3. View all Scores by Date");
+        System.out.println("4. View top Scores");
+        System.out.println("5. View recent Scores");
+        System.out.println("0. <<< Back Menu");
+    }
+
     public void viewScore() {
         scoreMenu();
 
@@ -127,7 +138,7 @@ public class ScoreService {
             return;
         }
 
-        System.out.print("Enter the top N scores (1-"+ scores.size() +"): ");
+        System.out.println("Enter the Top scores count (1-"+ scores.size() +") ");
         int top = InputUtil.getInt(1, scores.size());
 
         Collections.sort(scores);
@@ -158,7 +169,7 @@ public class ScoreService {
 
         scores.sort(compareByDate);
 
-        System.out.print("Enter the recent N scores (1-"+ scores.size() +"): ");
+        System.out.println("Enter the recent scores count (1-"+ scores.size() +") ");
         int recent = InputUtil.getInt(1, scores.size());
 
         System.out.println("\nRecent "+ recent +" Scores are:\n");
@@ -175,14 +186,4 @@ public class ScoreService {
         FileUtil.writeScore(newScore);
     }
 
-    private void scoreMenu() {
-        System.out.println();
-        System.out.println("Choose your choice");
-        System.out.println("1. View Score by Name");
-        System.out.println("2. View Score by Quiz type");
-        System.out.println("3. View all Scores by Date");
-        System.out.println("4. View top Scores");
-        System.out.println("5. View recent Scores");
-        System.out.println("0. <<< Back Menu");
-    }
 }
