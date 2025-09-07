@@ -82,8 +82,8 @@ public class UserService {
         System.out.println("What do you want to change?");
         System.out.println("1. UserName");
         System.out.println("2. Password");
-        System.out.println("3. Back to User Menu");
-        int choice = InputUtil.getInt(1, 3);
+        System.out.println("0. Back to User Menu");
+        int choice = InputUtil.getInt(0, 2);
 
         switch (choice) {
             case 1:
@@ -92,7 +92,7 @@ public class UserService {
             case 2:
                 changePassword(userName);
                 break;
-            case 3:
+            case 0:
                 System.out.println("Returning to User Menu...");
                 return userName;
         }
@@ -166,5 +166,9 @@ public class UserService {
                 System.out.println("Incorrect Password! Try again.");
             }
         }
+    }
+
+    public void usersCount() {
+        System.out.println("\nTotal Users Count is : " + FileUtil.getUsers().size() + "\n");
     }
 }

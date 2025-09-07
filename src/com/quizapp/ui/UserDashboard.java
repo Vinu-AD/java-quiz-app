@@ -16,8 +16,8 @@ public class UserDashboard {
         System.out.println();
         System.out.println("1. Login");
         System.out.println("2. Create New Account");
-        System.out.println("3. Back to Main Menu");
-        int choice = InputUtil.getInt(1, 3);
+        System.out.println("0. Back to Main Menu");
+        int choice = InputUtil.getInt(0, 2);
 
         try {
             switch (choice) {
@@ -30,7 +30,7 @@ public class UserDashboard {
                     String newUser = userService.createNewUser();
                     userMenu(newUser);
                     break;
-                case 3:
+                case 0:
                     System.out.println("Returning to Main Menu...");
             }
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class UserDashboard {
             showMenu();
 
             try {
-                int choice = InputUtil.getInt(1, 5);
+                int choice = InputUtil.getInt(0, 4);
 
                 switch (choice) {
                     case 1:
@@ -60,7 +60,7 @@ public class UserDashboard {
                     case 4:
                         userName = userService.profileUpdate(userName);
                         break;
-                    case 5:
+                    case 0:
                         System.out.println("Logging out...");
                         loggedIn = false;
                 }
@@ -79,7 +79,7 @@ public class UserDashboard {
         System.out.println("2. My Scores");
         System.out.println("3. Top Scores");
         System.out.println("4. Change UserName or Password");
-        System.out.println("5. Logout");
+        System.out.println("0. Logout");
     }
 
 }

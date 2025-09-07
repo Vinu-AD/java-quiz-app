@@ -67,6 +67,15 @@ public class FileUtil {
         return false;
     }
 
+    public static TreeSet<String> getUsers() {
+        File file = new File("resources/users.dat");
+        ArrayList<User> users = readObjectFromFile(file);
+        TreeSet<String> names = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        for(User user : users)
+            names.add(user.getUserName());
+        return names;
+    }
+
     public static boolean createQuizFile(String fileName) {
         File file = new File("resources/questions/" + fileName + ".txt");
         try {
@@ -233,12 +242,4 @@ public class FileUtil {
         return scores;
     }
 
-    public static TreeSet<String> getUsers() {
-        File file = new File("resources/users.dat");
-        ArrayList<User> users = readObjectFromFile(file);
-        TreeSet<String> names = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-        for(User user : users)
-            names.add(user.getUserName());
-        return names;
-    }
 }

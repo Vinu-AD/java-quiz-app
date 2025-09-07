@@ -1,17 +1,19 @@
 package com.quizapp.ui;
 
 import com.quizapp.service.QuizService;
+import com.quizapp.service.UserService;
 import com.quizapp.util.InputUtil;
 import com.quizapp.service.QuestionService;
 import com.quizapp.service.ScoreService;
 
 public class AdminDashboard {
 
-    private static final String ADMIN_PASSWORD = "admin";
+    private static final String ADMIN_PASSWORD = "admin@Vinu@3";
 
     private final QuestionService questionService = new QuestionService();
     private final ScoreService scoreService = new ScoreService();
     private final QuizService quizService = new QuizService();
+    private final UserService userService = new UserService();
 
     public void adminValidation() {
         while (true) {
@@ -38,7 +40,7 @@ public class AdminDashboard {
                 showMenu();
 
                 try {
-                    int choice = InputUtil.getInt(1, 6);
+                    int choice = InputUtil.getInt(0, 6);
 
                     switch (choice) {
                         case 1:
@@ -57,6 +59,9 @@ public class AdminDashboard {
                             scoreService.viewScore();  // view score separately
                             break;
                         case 6:
+                            userService.usersCount();  // view score separately
+                            break;
+                        case 0:
                             System.out.println("Logging out...");
                             loggedIn = false;
                     }
@@ -76,7 +81,8 @@ public class AdminDashboard {
         System.out.println("3. View quizzes");
         System.out.println("4. Demo quiz");
         System.out.println("5. View scores");
-        System.out.println("6. Logout");
+        System.out.println("6. Total users count");
+        System.out.println("0. Logout");
     }
 
 }

@@ -10,6 +10,8 @@ public class QuestionService {
 
     public void alterMenu() {
         System.out.println();
+//        System.out.println("Note: Your changes will be saved in the file\n" +
+//                "only \"When you come back to this menu again!!!.\"");
         System.out.println("What do you want to perform?");
         System.out.println("1. Append");
         System.out.println("2. Delete");
@@ -107,7 +109,7 @@ public class QuestionService {
             System.out.print("Enter: ");
             String question = InputUtil.getString();
 
-            if(question.trim().equalsIgnoreCase("stop")) return null;
+            if(question.trim().equalsIgnoreCase("stop")) return questions;
 
             if(question.trim().equalsIgnoreCase("multiline")) {
                 questions.add(getMultiLineQuestion());
@@ -120,16 +122,13 @@ public class QuestionService {
             System.out.println("Enter content for option(b)");
             options.add(InputUtil.getString());
 
-            int order = 3;
-
             while (true) {
-                System.out.println("\nEnter content for option(" + (char)(order+96) + "). (Enter 'stop' to finish options)");
+                System.out.println("\nEnter content for option(" + (char)(options.size()+97) + "). (Enter 'stop' to finish options)");
                 String value = InputUtil.getString();
                 if(value.equalsIgnoreCase("stop")) {
                     break;
                 }
                 options.add(value);
-                order++;
             }
 
             System.out.println("\nEnter the correct answer(a-"+ (char)(options.size()+96) +")");
@@ -138,10 +137,7 @@ public class QuestionService {
             questions.add(new Question(question, options, answer));
 
             System.out.println("\nDo you want to add more question?");
-            System.out.println("(1. Yes, 2. No)");
-
-            int option = InputUtil.getInt(1, 2);
-            if(option == 2) break;
+            if(!InputUtil.getYesNo()) break;
 
         }
         return questions;
@@ -168,7 +164,8 @@ public class QuestionService {
             order++;
         }
 
-        System.out.println("Enter the correct answer (option(a-"+ order +") ");
+        order--;
+        System.out.println("Enter the correct answer (option(a-"+ order +"))");
 
         char answer = InputUtil.getChar('a', order);
         return new Question(question, options, answer);
@@ -248,7 +245,7 @@ public class QuestionService {
 
                 // updating the question
                 if (choice == 1) {
-                    System.out.println("Insert the new(corrected) question");
+                    System.out.println("Enter the new(corrected) question");
                     System.out.println("(enter 'Multiline' for multiple line questions)");
                     String newQuestion = InputUtil.getString();
                     if (newQuestion.equalsIgnoreCase("multiline")) {
@@ -256,7 +253,7 @@ public class QuestionService {
                     }
 
                     actualQuestion.setQuestion(newQuestion); // updating the new question
-                    questions.set(questionNumber - 1, actualQuestion); // updating updated question to the questions list
+//                    questions.set(questionNumber - 1, actualQuestion); // updating the updated question to the questions list
 
                     // for question confirmation
                     System.out.println("\nActual question after modification");
@@ -268,7 +265,7 @@ public class QuestionService {
 
                     ArrayList<String> options = actualQuestion.getOptions();
                     if(options.isEmpty()) throw new RuntimeException("No options found");
-                    char order = (char) (options.size() + 96);
+                    char lastOption = (char) (options.size() + 96);
 
                     System.out.println("\nWhat do you want to perform?");
                     System.out.println("1. Add option");
@@ -279,13 +276,29 @@ public class QuestionService {
                     // Add options block
                     if (operation == 1) {
                         while (true) {
-                            System.out.println("Provide value for option(" + (char)(order+1) + "): ");
+                            System.out.println("Provide value for option(" + (char)(lastOption+1) + "): ");
                             System.out.println("(enter 'Multiline' for multiple line option)");
                             String option = InputUtil.getString();
-                            if(option.equalsIgnoreCase("multiline"))
-                                options.add(getMultilineOption());
-                            else
+
+                            if(option.equalsIgnoreCase("multiline")) {
+                                String multilineOption = getMultilineOption();
+                                if (checkDuplicateOption(options, multilineOption)) {
+                                    System.out.println("Given option already exists.\n");
+                                    continue;
+                                }
+                                else {
+                                    options.add(multilineOption);
+                                    lastOption++;
+                                }
+                            }
+                            else {
+                                if (checkDuplicateOption(options, option)) {
+                                    System.out.println("Given option already exists.\n");
+                                    continue;
+                                }
                                 options.add(option);
+                                lastOption++;
+                            }
 
                             System.out.println("Do you want to add more option?");
                             if(!InputUtil.getYesNo()) break;
@@ -295,16 +308,33 @@ public class QuestionService {
                     // Option update block
                     else if (operation == 2) {
                         while (true) {
-                            System.out.println("Which option [a-" + order + "] do you want to update");
-                            char optionNumber = InputUtil.getChar('a', order);
+                            System.out.println("Which option [a-" + lastOption + "] do you want to update");
+                            char optionNumber = InputUtil.getChar('a', lastOption);
 
-                            System.out.print("Provide your new value for option(" + order + "): ");
-                            System.out.println("(enter 'Multiline' for multiple line option)");
-                            String option = InputUtil.getString();
-                            if(option.equalsIgnoreCase("multiline"))
-                                options.set(optionNumber - 97, getMultilineOption());
-                            else
-                                options.set(optionNumber - 97, option);
+                            boolean duplicateFound = true;
+                            while (duplicateFound) {
+                                System.out.print("Provide your new value for option(" + optionNumber + "): ");
+                                System.out.println("(enter 'Multiline' for multiple line option)");
+                                String option = InputUtil.getString();
+
+                                if (option.equalsIgnoreCase("multiline")) {
+                                    String multilineOption = getMultilineOption();
+                                    if (checkDuplicateOption(options, multilineOption))
+                                        System.out.println("Given option already exists.\n");
+                                    else {
+                                        duplicateFound = false;
+                                        options.set(optionNumber - 97, multilineOption);
+                                    }
+                                }
+                                else {
+                                    if (checkDuplicateOption(options, option))
+                                        System.out.println("Given option already exists.\n");
+                                    else {
+                                        duplicateFound = false;
+                                        options.set(optionNumber - 97, option);
+                                    }
+                                }
+                            }
 //
                             System.out.println("Do you want to update more option?");
                             if(!InputUtil.getYesNo()) break;
@@ -314,10 +344,11 @@ public class QuestionService {
                     // Option delete block
                     else if (operation == 3) {
                         while (true) {
-                            System.out.println("Which option [a-" + (order) + "] do you want to delete");
-                            char option = InputUtil.getChar('a', order);
+                            System.out.println("Which option [a-" + (lastOption) + "] do you want to delete");
+                            char option = InputUtil.getChar('a', lastOption);
                             options.remove( option - 97);
                             System.out.println("Option '" + (option) + "' deleted");
+                            lastOption--;
 
                             System.out.println("\nDo you want to delete more option?");
                             if(!InputUtil.getYesNo()) break;
@@ -339,24 +370,34 @@ public class QuestionService {
 
                     Question updatedQuestion = questions.get(questionNumber - 1);
                     updatedQuestion.setAnswer(Character.toLowerCase(answer));
-
-                    questions.set(questionNumber - 1, updatedQuestion);
+//                    questions.set(questionNumber - 1, updatedQuestion);
 
                     // for answer confirmation
                     System.out.println("\nActual question after modification");
                     System.out.println(actualQuestion);
                 }
 
+                // pushing the corrected question to the same file
+                FileUtil.putQuestionsToFile(nthFile, questions);
+
                 System.out.println("Do you want to update again in this question?");
                 if(!InputUtil.getYesNo()) break;
             }
 
-            System.out.println("\nDo you want to update more question?");
+            System.out.println("\nDo you want to update another question?");
             if(!InputUtil.getYesNo()) break;
         }
 
         // pushing the corrected question to the same file
-        FileUtil.putQuestionsToFile(nthFile, questions);
+//        FileUtil.putQuestionsToFile(nthFile, questions);
+    }
+
+    private static boolean checkDuplicateOption(ArrayList<String> options, String newOption) {
+        if (options == null) return false;
+        for (String option : options)
+            if (option.strip().equals(newOption.strip()))
+                return true;
+        return false;
     }
 
     private static String getMultilineQuestion() {

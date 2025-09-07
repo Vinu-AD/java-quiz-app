@@ -12,7 +12,7 @@ public class MainMenu {
 
         while (running) {
             showMenu();
-            int choice = InputUtil.getInt(1, 3);
+            int choice = InputUtil.getInt(0, 2);
 
             switch (choice) {
                 case 1:
@@ -21,7 +21,7 @@ public class MainMenu {
                 case 2:
                     userDashboard.userChoice();
                     break;
-                case 3:
+                case 0:
                     System.out.println("Exiting... Thank you for using QuizApp!");
                     running = false;
             }
@@ -35,6 +35,6 @@ public class MainMenu {
         System.out.println("==============================");
         System.out.println("1. Admin Login");
         System.out.println("2. User Login");
-        System.out.println("3. Exit");
+        System.out.println("0. Exit");
     }
 }
