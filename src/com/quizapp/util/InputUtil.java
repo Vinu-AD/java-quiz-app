@@ -1,5 +1,6 @@
 package com.quizapp.util;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -90,6 +91,14 @@ public class InputUtil {
                 return;
             else
                 System.out.println("Press 'Enter key' to continue");
+        }
+    }
+
+    public static boolean ifPresent() {
+        try {
+            return System.in.available() > 1;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

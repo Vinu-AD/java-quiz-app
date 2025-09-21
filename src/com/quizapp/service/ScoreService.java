@@ -73,8 +73,8 @@ public class ScoreService {
         Collections.sort(scores);
         int totalAttempt = 0;
 
-        System.out.printf("%-10s | %-20s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
-        System.out.println("========== | ==================== | =========== | ========== | =======================");
+        System.out.printf("%-15s | %-30s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
+        System.out.println("=============== | ============================== | =========== | ========== | ========================");
         for (Score score : scores) {
             if (score.getName().equals(userName)) {
                 totalAttempt++;
@@ -97,8 +97,8 @@ public class ScoreService {
         Collections.sort(scores);
         int totalAttempt = 0;
 
-        System.out.printf("%-10s | %-20s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
-        System.out.println("========== | ==================== | =========== | ========== | =======================");
+        System.out.printf("%-15s | %-30s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
+        System.out.println("=============== | ============================== | =========== | ========== | ========================");
 
         for (Score score : scores) {
             if (score.getQuizType().equals(quizType.substring(0, quizType.length() - 4))) {
@@ -119,8 +119,8 @@ public class ScoreService {
             return;
         }
         int totalAttempt = 0;
-        System.out.printf("%-10s | %-20s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
-        System.out.println("========== | ==================== | =========== | ========== | =======================");
+        System.out.printf("%-15s | %-30s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
+        System.out.println("=============== | ============================== | =========== | ========== | ========================");
         for (Score score : scores) {
             totalAttempt++;
             System.out.println(score);
@@ -145,8 +145,8 @@ public class ScoreService {
 
         System.out.println("\nTop "+ top +" Scores are:\n");
 
-        System.out.printf("%-10s | %-20s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
-        System.out.println("========== | ==================== | =========== | ========== | =======================");
+        System.out.printf("%-15s | %-30s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
+        System.out.println("=============== | ============================== | =========== | ========== | ========================");
         for (int i = 0; i < top; i++) {
             System.out.println(scores.get(i));
         }
@@ -160,12 +160,7 @@ public class ScoreService {
             return;
         }
 
-        Comparator<Score> compareByDate = new Comparator<>() {
-            @Override
-            public int compare(Score o1, Score o2) {
-                return o2.getDateTime().compareTo(o1.getDateTime());
-            }
-        };
+        Comparator<Score> compareByDate = (o1,o2) -> o2.getDateTime().compareTo(o1.getDateTime());
 
         scores.sort(compareByDate);
 
@@ -174,8 +169,8 @@ public class ScoreService {
 
         System.out.println("\nRecent "+ recent +" Scores are:\n");
 
-        System.out.printf("%-10s | %-20s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
-        System.out.println("========== | ==================== | =========== | ========== | =======================");
+        System.out.printf("%-15s | %-30s | %-10s | %-10s | %s\n", "Name", "Quiz Topic", "Score/Total", "Percentage", "Attended Date and Time");
+        System.out.println("=============== | ============================== | =========== | ========== | ========================");
         for (int i = 0; i < recent; i++) {
             System.out.println(scores.get(i));
         }

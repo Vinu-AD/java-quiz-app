@@ -3,7 +3,6 @@ package com.quizapp.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 
 public class Score implements Serializable, Comparable<Score> {
     private String name;
@@ -73,7 +72,7 @@ public class Score implements Serializable, Comparable<Score> {
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm:ss a");
-        return String.format("%-10s | %-20s | %4d / %-4d | %-10.2f | %s", name, quizType, score, totalQuestions, percentage, dateTime.format(formatter));
+        return String.format("%-15s | %-30s | %4d / %-4d | %-10.2f | %s", name, quizType, score, totalQuestions, percentage, dateTime.format(formatter));
     }
 
     @Override
